@@ -1,0 +1,141 @@
+<div class="container">
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+        <strong>Error:</strong> {{errorMessage}}
+    </div>
+    </div>
+  
+<div class="col-lg-12">
+  <div class="card">
+      <div class="card-body">
+
+  <h1 class="card-title" style="text-align: center;">Cambiar Millas</h1>
+  <h6 class="card-subtitle"> 
+
+    <!-- Modal Cambiar Inicio -->
+
+     <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header" style="text-align: center; display: block;">
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Cambiar millas</h4>
+      </div>
+      <div class="modal-body">
+  
+        <form [formGroup]="myForm">
+          <div class="modal-body">
+   
+                <div class="form-group text-left">
+                  <label for="billeteraOrigen">Billetera origen</label>
+                  
+                      <textarea formControlName="billeteraOrigen" class="form-control" rows="1"></textarea>
+                  
+                </div>
+                <div class="form-group text-left">
+                  <label for="billeteraDestino">Billetera destino</label>
+                  
+                      <textarea formControlName="billeteraDestino" class="form-control" rows="1"></textarea>
+                  
+                </div>
+                  
+                <div class="form-group text-left">
+                  <label for="valorTransaccion">Valor transaccion</label>
+                  
+                    <input formControlName="valorTransaccion" type="number" class="form-control">
+                  
+                </div>
+  
+                <div class="form-group text-left">
+                  <label for="objetoCambio">Objeto cambio</label>
+                  
+                    <input formControlName="objetoCambio" type="text" class="form-control">
+                  
+                </div>
+  
+                <div class="form-group text-left">
+                  <label for="referenciaCambio">Referencia cambio</label>
+                  
+                    <input formControlName="referenciaCambio" type="text" class="form-control">
+                  
+                </div>
+  
+          </div>
+          <div class="modal-footer" style="text-align: center; display: block;">
+              <button type="button" class="btn btn-default" data-dismiss="modal" (click)="d('Cross click')">Cancelar</button>
+            <button style="color:white;" (click)="addTransaction(myForm);d('Cross click');" type="submit" class="btn btn-success" data-dismiss="modal">Confirmar</button>
+  
+          </div>
+        </form>
+  
+      </div>
+    </ng-template>
+  
+    <div class="row">
+      <div class="col-md-6 pull-left">
+        <button class="btn btn-success waves-effect waves-light" style="color:#fff;" (click)="open2(content)">
+        <span class="btn-label" >
+          <i class="fa fa-plus" style="color: #fff;"></i>
+          </span>                  
+          Cambiar               
+        </button>
+      </div>
+      <div class="col-md-6">
+        <form class="w-50 m-b-30 pull-right">
+          <input  type='text' class="form-control" style="min-height:43px;" placeholder='Buscar' (keyup)='updateFilter($event)'   />
+        </form> 
+      </div>
+    </div>
+
+      <!-- Modal Cambiar Fin -->
+    
+    <code></code></h6>
+
+
+      <div class="table table-responsive smart-table">
+        <table class="table">
+          <thead>
+            <tr> 
+  
+              <th class="info">Billetera Origen</th>
+  
+              <th class="info">Billetera Destino</th>
+  
+              <th class="info">Valor Transaccion</th>
+
+              <th class="info">Objecto Cambio</th>
+
+              <th class="info">Referencia Cambio</th>
+
+              <!-- <th class="info">Transaccion ID</th> -->
+
+              <th class="info">Fecha</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+
+          <tr *ngFor="let asset of allTransactions">
+  
+              <td class="asset-properties">{{asset.billeteraOrigen | slice:45}}</td>
+  
+              <td class="asset-properties">{{asset.billeteraDestino | slice:45}}</td>
+  
+              <td class="asset-properties">{{asset.valorTransaccion}}</td>
+
+              <td class="asset-properties">{{asset.objetoCambio}}</td>
+
+              <td class="asset-properties">{{asset.referenciaCambio}}</td>
+
+              <!-- <td class="asset-properties">{{asset.transactionId}}</td> -->
+
+              <td class="asset-properties">{{asset.timestamp | date:'medium'}}</td>
+          
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
+
+    </div>
+  </div>
+</div>  

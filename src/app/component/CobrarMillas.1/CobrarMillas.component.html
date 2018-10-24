@@ -1,0 +1,171 @@
+<div class="container ">
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+        <strong>Error:</strong> {{errorMessage}}
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <div class="card">
+        <div class="card-body">
+  
+  
+  
+  
+            <h1 class="card-title" style="text-align: center;">Estado de cobros</h1>
+            <h6 class="card-subtitle"> 
+
+
+
+                <ng-template #content let-c="close" let-d="dismiss">
+                    <div class="modal-header" style="text-align: center; display: block;">
+                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">Cobrar millas</h4>
+                    </div>
+                    <div class="modal-body">
+            
+                      <!-- Cuerpo del modal -->
+            
+                      <form [formGroup]="myForm">
+                          <div class="modal-body scroll-container">
+
+                              
+                                <div class="form-group text-left">
+                                  <label for="billetera">Billetera</label>
+                                  
+                                      <textarea formControlName="billetera" class="form-control" rows="1"></textarea>
+                                  
+                                </div>
+                              
+                            
+                  
+                              
+                                <div class="form-group text-left">
+                                  <label for="valorCobro">Valor de cobro</label>
+                                  
+                                    <input formControlName="valorCobro" type="number" class="form-control">
+                                  
+                                </div>
+                              
+                            
+                  
+                              
+                                <div class="form-group text-left">
+                                  <label for="referencia">Referencia</label>
+                                  
+                                    <input formControlName="referencia" type="text" class="form-control">
+                                  
+                                </div>
+
+                                <label for="motivo">Motivo</label>
+                              
+                                  
+                                    
+                                <div class="custom-control custom-radio">
+                                  <input formControlName="motivo" type="radio" id="customRadio1" name="motivo"value="INICIALIZACION" class="custom-control-input">
+                                  <label class="custom-control-label" for="customRadio1">Inicialización</label>
+                                </div>
+              
+                               
+                                    <br>
+              
+                                <div class="custom-control custom-radio">
+                                  <input formControlName="motivo" type="radio" id="customRadio2" name="motivo" value="REVERSO" class="custom-control-input">
+                                  <label class="custom-control-label" for="customRadio2">Reverso</label>
+                                </div>
+              
+                                    <br>
+              
+                                <div class="custom-control custom-radio">
+                                  <input formControlName="motivo" type="radio" id="customRadio3" name="motivo" value="TRANSACCION" class="custom-control-input">
+                                  <label class="custom-control-label" for="customRadio3">Transacción</label>
+                                </div>
+                               
+                                 <br>
+
+                          <div class="modal-footer" style="text-align: center; display: block;">
+                              <button type="button" class="btn btn-default" data-dismiss="modal" (click)="d('Cross click')">Cancel</button>
+                              <button style="color:white;" (click)="addTransaction(myForm);d('Cross click');" type="submit" class="btn btn-success" data-dismiss="modal">Confirm</button>
+                          </div>
+                          </div>
+                        </form>
+            
+                      <!-- Fin cuerpo del modal -->
+            
+                    </div>
+                  </ng-template>
+            
+                  <div class="row">
+                    <div class="col-md-6 pull-left">
+                      <button class="btn btn-success waves-effect waves-light" style="color:#fff;" (click)="open2(content)">
+                      <span class="btn-label" >
+                        <i class="fa fa-plus" style="color: #fff;"></i>
+                        </span>                  
+                        Cobrar              
+                      </button>
+                    </div>
+                    <div class="col-md-6">
+                      <form class="w-50 m-b-30 pull-right">
+                        <input  type='text' class="form-control" style="min-height:43px;" placeholder='Buscar' (keyup)='updateFilter($event)'   />
+                      </form> 
+                    </div>
+                  </div>
+
+
+
+                <!--               <button class="btn btn-outline-primary" (click)="resetForm()" data-toggle="modal" data-target="#addAssetModal">
+                <span style="font-size: 14px;font-family: inherit;border-right:1px solid rgba(255,255,255,0.5);padding-right:0.6em;margin-right:0.5em;vertical-align:middle;">
+                    <svg class="plus-svg" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10">
+                      <path fill="orange" fill-rule="evenodd" d="M5.5,4.5 L9.5,4.5 L10,4.5 L10,5.5 L9.5,5.5 L5.5,5.5 L5.5,9.5 L5.5,10 L4.5,10 L4.5,9.5 L4.5,5.5 L0.5,5.5 L0,5.5 L0,4.5 L0.5,4.5 L4.5,4.5 L4.5,0.5 L4.5,0 L5.5,0 L5.5,0.5 L5.5,4.5 Z"/>
+                    </svg>
+                </span>            
+                Cobrar
+              </button> -->
+              
+              <code></code></h6>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="info">Billetera</th>
+  
+                            <th class="info">Cantidad</th>
+                
+                            <th class="info">Referencia</th>
+              
+                            <th class="info">Motivo</th>
+              
+                            <!-- <th class="info">ID Unico de Transaccion</th> -->
+              
+                            <th class="info">Fecha</th>
+                
+                            <!-- <th class="info-actions">Actions</th> -->
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let asset of allAssets">
+  
+  
+                            <tr *ngFor="let asset of allTransactions">
+  
+                                <td class="asset-properties">{{asset.billetera | slice:45}}</td>
+                            
+                                <td class="asset-properties">{{asset.valorCobro}}</td>
+                            
+                                <td class="asset-properties">{{asset.referencia}}</td>
+                            
+                                <td class="asset-properties">{{asset.motivo}}</td>
+                            
+                                <!-- <td class="asset-properties">{{asset.transactionId}}</td> -->
+                            
+                                <td class="asset-properties">{{asset.timestamp | date:'medium'}}</td>
+                      
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  </div>
