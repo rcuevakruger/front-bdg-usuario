@@ -176,8 +176,8 @@ export const ComponentsRoutes: Routes = [
       path: 'CambiarMillas',
       component: CambiarMillasComponent,
       data: {
-        title: 'Cambiar Millas',
-        urls: [{title: 'Inicio',url: '/dashboard'},{title: 'Cambiar Millas'}]
+        title: 'Compra',
+        urls: [{title: 'Inicio',url: '/dashboard'},{title: 'Compra'}]
       }
     },
     {
