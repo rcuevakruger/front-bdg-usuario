@@ -2,25 +2,25 @@ import { RouteInfo } from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
     {
-        path: '', title: 'Personal', icon: '', class: 'nav-small-cap', label: '', labelClass: '', extralink: true, submenu: []
+        path: '', title: 'Comercio', icon: '', class: 'nav-small-cap', label: '', labelClass: '', extralink: true, submenu: []
     },
     {
-        path: '/dashboards/dashboard-components/Billetera', title: 'Billetera', icon: 'mdi mdi-gauge', class: '', label: '', labelClass: '', extralink: false, submenu: []
+        path: '/dashboard/dashboard1', title: 'Billetera', icon: 'mdi mdi-gauge', class: '', label: '', labelClass: '', extralink: false, submenu: []
     },
-    {
+    /* {
         path: '', title: 'Dashboards', icon: 'mdi mdi-gauge', class: 'has-arrow', label: '4', labelClass: 'label label-rouded label-themecolor pull-right', extralink: false,
         submenu: [
             { path: '/dashboard/dashboard1', title: 'Usuario', icon: '', class: '', label: '', labelClass: '', extralink: false, submenu: [] },
             { path: '/dashboard/dashboard2', title: 'Classic', icon: '', class: '', label: '', labelClass: '', extralink: false, submenu: [] },
             { path: '/dashboard/dashboard3', title: 'Analytical', icon: '', class: '', label: '', labelClass: '', extralink: false, submenu: [] },
         ]
-    },
+    }, */
     {
         path: '', title: 'Transacciones', icon: '', class: 'nav-small-cap', label: '', labelClass: '', extralink: true, submenu: []
-    },{
+    }/* ,{
         path: '/component/AcreditarMillas', title: 'Acreditar', icon: 'mdi mdi-contrast', class: '', label: '', labelClass: '', extralink: false, submenu: [ ]
-    },{
-        path: '/component/CambiarMillas', title: 'Cambiar', icon: 'mdi mdi-swap-horizontal', class: '', label: '', labelClass: '', extralink: false, submenu: [ ]
+    } */,{
+        path: '/component/CambiarMillas', title: 'Compra', icon: 'mdi mdi-swap-horizontal', class: '', label: '', labelClass: '', extralink: false, submenu: [ ]
     },{
         path: '/component/CobrarMillas', title: 'Cobrar', icon: 'mdi mdi-cash-multiple', class: '', label: '', labelClass: '', extralink: false, submenu: [ ]
     },
