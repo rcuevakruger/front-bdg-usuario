@@ -9,7 +9,7 @@
         <ol class="breadcrumb">
             <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
                 <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
-                    <a href='javascript:void(0)'>Panel</a> //agregar {{url.title}} para tener original
+                    <a href='javascript:void(0)'>Panel</a> <!-- //agregar {{url.title}} para tener original -->
                 </li>
                 <li class="breadcrumb-item active" *ngIf="last">{{url.title}}</li>
             </ng-template>
@@ -19,3 +19,4 @@
 <!-- ============================================================== -->
 <!-- End Bread crumb and right sidebar toggle -->
 <!-- ============================================================== -->
+
