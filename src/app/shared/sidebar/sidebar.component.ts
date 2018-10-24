@@ -15,6 +15,7 @@ export class SidebarComponent implements OnInit {
     showMenu: string = '';
     showSubMenu: string = '';
     public sidebarnavItems: any[];
+    usuario
     //this is for the open close
     addExpandClass(element: any) {
         if (element === this.showMenu) {
@@ -35,6 +36,8 @@ export class SidebarComponent implements OnInit {
     
     constructor(private modalService: NgbModal, private router: Router,
         private route: ActivatedRoute) {
+            this.usuario=JSON.parse(localStorage.getItem("usuario"))
+            // this.usuario
         
     } 
     // End open close
