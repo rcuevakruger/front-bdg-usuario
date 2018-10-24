@@ -11,10 +11,11 @@ export const routes: Routes = [
     component: FullComponent,
     children: [
         { path: '', redirectTo: '/authentication/login', pathMatch: 'full' },
+        { path: 'dashboard', loadChildren: './dashboards/dashboard.module#DashboardModule' },
         { path: 'Billetera', loadChildren: './component/component.module#ComponentsModule' },
         { path: 'component', loadChildren: './component/component.module#ComponentsModule' }
     ]
-}, 
+},
 {
     path: '',
     component: BlankComponent,
@@ -24,7 +25,7 @@ export const routes: Routes = [
             loadChildren: './authentication/authentication.module#AuthenticationModule'
         }
     ]
-}, 
+},
 {
     path: '**',
     redirectTo: '404' 
