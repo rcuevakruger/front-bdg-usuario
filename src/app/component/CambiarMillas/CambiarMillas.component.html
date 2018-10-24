@@ -1,15 +1,61 @@
+<style>
+    ::placeholder {
+        color: rgb(161, 161, 161);
+        opacity: 1; /* Firefox */
+    }
+</style>
+
 <div class="container">
     <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
         <strong>Error:</strong> {{errorMessage}}
     </div>
     </div>
   
-<div class="col-lg-12">
+<div class=" row h-100 justify-content-center align-items-center ">
+<div class="col-lg-6">
   <div class="card">
       <div class="card-body">
 
-  <h1 class="card-title" style="text-align: center;">Cambiar Millas</h1>
+  <h1 class="card-title" style="text-align: center;">Compra</h1>
   <h6 class="card-subtitle"> 
+
+
+
+
+    <!-- Default form register -->
+    <form class="text-center p-2">
+
+      <!-- E-mail -->
+      <input type="text" class="form-control mb-4" placeholder=" Buscar por # Cedula / RUC">
+
+      <!-- Password -->
+      <input type="text" class="form-control mb-4" placeholder="Nombre" aria-describedby="defaultRegisterFormPasswordHelpBlock" disabled>
+
+      <div class="form-row mb-4">
+        <div class="col">
+          <!-- First name -->
+          <input type="text" class="form-control" placeholder="Producto">
+        </div>
+        <div class="col">
+          <!-- Last name -->
+          <input type="text" class="form-control" placeholder="Referencia">
+        </div>
+      </div>
+
+      <div>
+      <!-- Phone number -->
+      <input type="number"  class="form-control col-lg-4" placeholder="Valor total $" aria-describedby="defaultRegisterFormPhoneHelpBlock">
+      </div>      
+      
+      <!-- Sign up button -->
+      <button mdbBtn color="info" block="true" class="mt-4 btn btn-info btn-md" type="submit" style="color: white">Aceptar</button>
+
+
+    </form>
+    <!-- Default form register -->
+
+
+
 
     <!-- Modal Cambiar Inicio -->
 
@@ -18,8 +64,9 @@
           <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title">Cambiar millas</h4>
+          <h4 class="modal-title">Compra</h4>
       </div>
+
       <div class="modal-body">
   
         <form [formGroup]="myForm">
@@ -70,7 +117,7 @@
       </div>
     </ng-template>
   
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-6 pull-left">
         <button class="btn btn-success waves-effect waves-light" style="color:#fff;" (click)="open2(content)">
         <span class="btn-label" >
@@ -84,14 +131,14 @@
           <input  type='text' class="form-control" style="min-height:43px;" placeholder='Buscar' (keyup)='updateFilter($event)'   />
         </form> 
       </div>
-    </div>
+    </div> -->
 
       <!-- Modal Cambiar Fin -->
     
     <code></code></h6>
 
 
-      <div class="table table-responsive smart-table">
+      <!-- <div class="table table-responsive smart-table">
         <table class="table">
           <thead>
             <tr> 
@@ -106,7 +153,7 @@
 
               <th class="info">Referencia Cambio</th>
 
-              <!-- <th class="info">Transaccion ID</th> -->
+              <th class="info">Transaccion ID</th>
 
               <th class="info">Fecha</th>
               
@@ -126,16 +173,17 @@
 
               <td class="asset-properties">{{asset.referenciaCambio}}</td>
 
-              <!-- <td class="asset-properties">{{asset.transactionId}}</td> -->
+              <td class="asset-properties">{{asset.transactionId}}</td>
 
               <td class="asset-properties">{{asset.timestamp | date:'medium'}}</td>
           
             </tr>
           </tbody>
         </table>
-      </div>
+      </div> -->
       
 
     </div>
   </div>
 </div>  
+</div>
