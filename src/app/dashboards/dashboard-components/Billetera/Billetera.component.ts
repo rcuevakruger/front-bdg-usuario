@@ -13,6 +13,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/switchMap';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -46,12 +47,19 @@ export class BilleteraComponent implements OnInit {
   propietario = new FormControl('', Validators.required);
   valorActual = new FormControl('', Validators.required);
 
-  constructor(public serviceBilletera: BilleteraService, fb: FormBuilder,private modalService: NgbModal, private modalService2: NgbModal) {
+  usuario
+
+  constructor(public serviceBilletera: BilleteraService, fb: FormBuilder,
+    private modalService: NgbModal, private modalService2: NgbModal,
+    private router: Router, private route: ActivatedRoute) {
     this.myForm = fb.group({
       idBilletera: this.idBilletera,
       propietario: this.propietario,
       valorActual: this.valorActual
     });
+
+    this.usuario=JSON.parse(localStorage.getItem("usuario"))
+
   };
 
   ngOnInit(): void {
@@ -60,7 +68,7 @@ export class BilleteraComponent implements OnInit {
   
   loadSingle(): Promise<any> {
     const tempList = [];
-    return this.serviceBilletera.getAsset("01")
+    return this.serviceBilletera.getAsset(this.usuario.id)
     .toPromise()
     .then((result) => {
       this.errorMessage = null;
