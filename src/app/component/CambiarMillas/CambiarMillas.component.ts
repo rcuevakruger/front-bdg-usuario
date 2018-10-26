@@ -15,25 +15,19 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { CambiarMillasService } from './CambiarMillas.service';
+import { ClienteService } from "../Cliente/Cliente.service";
 import 'rxjs/add/operator/toPromise';
 import { ViewEncapsulation } from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { BilleteraService } from '../../dashboards/dashboard-components/Billetera/Billetera.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
   selector: 'app-cambiarmillas',
   templateUrl: './CambiarMillas.component.html',
   // styleUrls: ['./CambiarMillas.component.scss'],
-  providers: [CambiarMillasService],
-  styles: [`
-    .dark-modal .modal-content {
-      background-color: #009efb;
-      color: white;
-    }
-    .dark-modal .close {
-      color: white;   
-    }
-  `]
+  providers: [CambiarMillasService, BilleteraService, ClienteService]
 })
 export class CambiarMillasComponent implements OnInit {
   closeResult: string;
@@ -44,7 +38,8 @@ export class CambiarMillasComponent implements OnInit {
   private Transaction;
   private currentId;
   private errorMessage;
-
+  private oneWallet;
+  
   billeteraOrigen = new FormControl('', Validators.required);
   billeteraDestino = new FormControl('', Validators.required);
   valorTransaccion = new FormControl('', Validators.required);
@@ -52,22 +47,89 @@ export class CambiarMillasComponent implements OnInit {
   referenciaCambio = new FormControl('', Validators.required);
   transactionId = new FormControl('', Validators.required);
   timestamp = new FormControl('', Validators.required);
+  
+  idBilletera = new FormControl('', Validators.required);
+  propietario = new FormControl('', Validators.required);
+  valorActual = new FormControl('', Validators.required);
+  
+  usuario
+  billeteraParaEnviar;
+  nombre
+  private billeteraCliente;
+  compra = {};
 
 
-  constructor(private serviceCambiarMillas: CambiarMillasService, fb: FormBuilder,private modalService: NgbModal, private modalService2: NgbModal) {
-    this.myForm = fb.group({
-      billeteraOrigen: this.billeteraOrigen,
-      billeteraDestino: this.billeteraDestino,
-      valorTransaccion: this.valorTransaccion,
-      objetoCambio: this.objetoCambio,
-      referenciaCambio: this.referenciaCambio,
-      transactionId: this.transactionId,
-      // timestamp: this.timestamp
-    });
+  constructor(private serviceCambiarMillas: CambiarMillasService, public serviceBilletera: BilleteraService, public serviceCliente: ClienteService,
+     fb: FormBuilder,private modalService: NgbModal, private modalService2: NgbModal,
+     private router: Router, private route: ActivatedRoute) {
+    
+    
+
+    this.usuario=JSON.parse(localStorage.getItem("usuario"))
+
   };
 
   ngOnInit(): void {
-    this.loadAll();
+    this.loadSingle();
+  }
+
+  cargarBilleteraDestino() {
+    const tempList = [];
+    this.serviceCliente.getparticipant(this.billeteraParaEnviar)
+    .toPromise()
+    .then((result) => {
+      this.errorMessage = null;
+      transaction => {
+        tempList.push(transaction);
+      };
+      // this.oneWallet = tempList;
+      console.log(this.billeteraParaEnviar);
+      this.billeteraCliente = result;
+      console.log(this.usuario);
+      
+      console.log(this.billeteraCliente);
+      
+      // console.log(this.oneWallet);
+      
+    })
+    .catch((error) => {
+      if (error === 'Server error') {
+        this.errorMessage = 'Could not connect to REST server. Please check your configuration details';
+      } else if (error === '404 - Not Found') {
+        this.errorMessage = '404 - Could not find API route. Please check your available APIs.';
+      } else {
+        this.errorMessage = error;
+      }
+    });
+  }
+
+  loadSingle(): Promise<any> {
+    const tempList = [];
+    return this.serviceBilletera.getAsset(this.usuario.id)
+    .toPromise()
+    .then((result) => {
+      this.errorMessage = null;
+      transaction => {
+        tempList.push(transaction);
+      };
+      // this.oneWallet = tempList;
+      this.oneWallet = result;
+      console.log(this.oneWallet);
+      console.log(this.usuario);
+      
+      
+      // console.log(this.oneWallet);
+      
+    })
+    .catch((error) => {
+      if (error === 'Server error') {
+        this.errorMessage = 'Could not connect to REST server. Please check your configuration details';
+      } else if (error === '404 - Not Found') {
+        this.errorMessage = '404 - Could not find API route. Please check your available APIs.';
+      } else {
+        this.errorMessage = error;
+      }
+    });
   }
 
   
@@ -91,6 +153,7 @@ export class CambiarMillasComponent implements OnInit {
     }
   }
 
+  
   loadAll(): Promise<any> {
     const tempList = [];
     return this.serviceCambiarMillas.getAll()
@@ -141,38 +204,20 @@ export class CambiarMillasComponent implements OnInit {
   addTransaction(form: any): Promise<any> {
     this.Transaction = {
       $class: 'com.kruger.millas.transacciones.CambiarMillas',
-      'billeteraOrigen': this.billeteraOrigen.value,
-      'billeteraDestino': this.billeteraDestino.value,
-      'valorTransaccion': this.valorTransaccion.value,
-      'objetoCambio': this.objetoCambio.value,
-      'referenciaCambio': this.referenciaCambio.value,
-      'transactionId': this.transactionId.value,
-      // 'timestamp': this.timestamp.value
+      'billeteraOrigen': "resource:com.kruger.millas.activos.Billetera#" + this.billeteraCliente.id,
+      'billeteraDestino': "resource:com.kruger.millas.activos.Billetera#" + this.usuario.id,
+      'valorTransaccion': this.compra["valorTotal"],
+      'objetoCambio': this.compra["producto"],
+      'referenciaCambio': this.compra["referencia"],
     };
 
-    this.myForm.setValue({
-      'billeteraOrigen': null,
-      'billeteraDestino': null,
-      'valorTransaccion': null,
-      'objetoCambio': null,
-      'referenciaCambio': null,
-      'transactionId': null,
-      // 'timestamp': null
-    });
+
 
     return this.serviceCambiarMillas.addTransaction(this.Transaction)
     .toPromise()
     .then(() => {
       this.errorMessage = null;
-      this.myForm.setValue({
-        'billeteraOrigen': null,
-        'billeteraDestino': null,
-        'valorTransaccion': null,
-        'objetoCambio': null,
-        'referenciaCambio': null,
-        'transactionId': null,
-        // 'timestamp': null
-      });
+      
     })
     .catch((error) => {
       if (error === 'Server error') {
