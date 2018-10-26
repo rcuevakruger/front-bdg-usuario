@@ -36,7 +36,7 @@ export class SidebarComponent implements OnInit {
     
     constructor(private modalService: NgbModal, private router: Router,
         private route: ActivatedRoute) {
-            this.usuario=JSON.parse(localStorage.getItem("usuario"))
+            this.usuario=JSON.parse(localStorage.getItem("usuario"))    
             // this.usuario
         
     } 
