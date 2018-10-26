@@ -1,4 +1,4 @@
-<div class="container">
+  <div class="container">
 	<div *ngIf="errorMessage" class="alert alert-danger" role="alert">
 		<strong>Error:</strong> {{errorMessage}}
   </div>
@@ -10,7 +10,7 @@
       <div class="card-body">
 
 
-          <h1 class="card-title" style="text-align: center;">Billetera: Kiwi S.A. </h1>
+          <h1 class="card-title" style="text-align: center;">Billetera: {{usuario.nombre}} </h1>
           
 
 
@@ -84,6 +84,13 @@
            
         
             <code></code>
+
+            <div class="text-center p-2">
+              <h1 class="mt-4" style="font-size: 80px;">{{oneWallet?.valorActual}}</h1>
+              <small class="form-text text-muted mt-3" style="font-size: 20px;">
+                      Millas
+              </small>
+            </div>
             
             <div class="table-responsive">
               <table class="table">
@@ -94,7 +101,7 @@
                 
                     <!-- <td class="asset-properties">{{asset.propietario | slice:53}}</td> -->
                 
-                    <td class="asset-properties text-center">{{oneWallet?.valorActual}}</td>
+                    <!-- <td class="asset-properties text-center" style="font-size: 80px; opacity: 1; color: #455a64">{{oneWallet?.valorActual}}</td> -->
                 
                 <!-- <td>
                   <button (click)="getForm(asset.idBilletera);" style="margin-left: 15px;" type="button" class="btn btn-update pull-right" data-toggle="modal" data-target="#updateAssetModal">
@@ -130,7 +137,7 @@
                 
                 <!-- <th class="info">Propietario</th> -->
                   
-                      <th class="info text-center">Millas</th>
+                      <!-- <th class="info text-center" style="font-size: 20px;">Millas</th> -->
                   
                       <!-- <th class="info-actions pull-right">Borrar / Modificar</th> -->
                     
@@ -139,6 +146,8 @@
                   </tbody>
               </table>
           </div>
+
+
 
           <!-- <div class="row">
               <div class="col-md-6 pull-left">
