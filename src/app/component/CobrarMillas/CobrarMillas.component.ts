@@ -16,14 +16,15 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { CobrarMillasService } from './CobrarMillas.service';
 import 'rxjs/add/operator/toPromise';
-import 'rxjs/add/operator/toPromise';
 import { ViewEncapsulation } from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { Router, ActivatedRoute } from '@angular/router';
+import { BilleteraService } from '../../dashboards/dashboard-components/Billetera/Billetera.service';
 
 @Component({
   selector: 'app-cobrarmillas',
   templateUrl: './CobrarMillas.component.html',
-  providers: [CobrarMillasService],
+  providers: [CobrarMillasService, BilleteraService],
 })
 export class CobrarMillasComponent implements OnInit {
   closeResult: string;
@@ -34,6 +35,7 @@ export class CobrarMillasComponent implements OnInit {
   private Transaction;
   private currentId;
   private errorMessage;
+  private oneWallet;
 
   billetera = new FormControl('', Validators.required);
   valorCobro = new FormControl('', Validators.required);
@@ -42,8 +44,16 @@ export class CobrarMillasComponent implements OnInit {
   transactionId = new FormControl('', Validators.required);
   timestamp = new FormControl('', Validators.required);
 
+  idBilletera = new FormControl('', Validators.required);
+  propietario = new FormControl('', Validators.required);
+  valorActual = new FormControl('', Validators.required);
 
-  constructor(private serviceCobrarMillas: CobrarMillasService, fb: FormBuilder,private modalService: NgbModal, private modalService2: NgbModal) {
+  usuario
+
+
+  constructor(private serviceCobrarMillas: CobrarMillasService, public serviceBilletera: BilleteraService, fb: FormBuilder,
+    private modalService: NgbModal, private modalService2: NgbModal,
+    private router: Router, private route: ActivatedRoute) {
     this.myForm = fb.group({
       billetera: this.billetera,
       valorCobro: this.valorCobro,
@@ -51,11 +61,18 @@ export class CobrarMillasComponent implements OnInit {
       motivo: this.motivo,
       transactionId: this.transactionId,
       // timestamp: this.timestamp
+
+      // idBilletera: this.idBilletera,
+      // propietario: this.propietario,
+      // valorActual: this.valorActual
     });
+
+    this.usuario=JSON.parse(localStorage.getItem("usuario"))
+
   };
 
   ngOnInit(): void {
-    this.loadAll();
+    this.loadSingle();
   }
 
   open2(content) { 
@@ -76,6 +93,33 @@ export class CobrarMillasComponent implements OnInit {
     } else {
       return  `with: ${reason}`;
     }
+  }
+
+  loadSingle(): Promise<any> {
+    const tempList = [];
+    return this.serviceBilletera.getAsset(this.usuario.id)
+    .toPromise()
+    .then((result) => {
+      this.errorMessage = null;
+      transaction => {
+        tempList.push(transaction);
+      };
+      // this.oneWallet = tempList;
+      this.oneWallet = result;
+      console.log(this.oneWallet);
+      console.log(this.usuario);
+      
+      
+    })
+    .catch((error) => {
+      if (error === 'Server error') {
+        this.errorMessage = 'Could not connect to REST server. Please check your configuration details';
+      } else if (error === '404 - Not Found') {
+        this.errorMessage = '404 - Could not find API route. Please check your available APIs.';
+      } else {
+        this.errorMessage = error;
+      }
+    });
   }
 
   loadAll(): Promise<any> {
@@ -128,10 +172,10 @@ export class CobrarMillasComponent implements OnInit {
   addTransaction(form: any): Promise<any> {
     this.Transaction = {
       $class: 'com.kruger.millas.transacciones.CobrarMillas',
-      'billetera': this.billetera.value,
+      'billetera':"resource:com.kruger.millas.activos.Billetera#" + this.usuario.id,
       'valorCobro': this.valorCobro.value,
       'referencia': this.referencia.value,
-      'motivo': this.motivo.value,
+      'motivo': "TRANSACCION",
       'transactionId': this.transactionId.value,
       // 'timestamp': this.timestamp.value
     };
