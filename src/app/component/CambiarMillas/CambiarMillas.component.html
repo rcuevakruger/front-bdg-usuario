@@ -1,123 +1,146 @@
 <style>
-    ::placeholder {
+  ::placeholder {
         color: rgb(161, 161, 161);
         opacity: 1; /* Firefox */
     }
 </style>
 
 <div class="container">
-    <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-        <strong>Error:</strong> {{errorMessage}}
-    </div>
-    </div>
-  
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    <strong>Error:</strong> {{errorMessage}}
+  </div>
+</div>
+
 <div class=" row h-100 justify-content-center align-items-center ">
-<div class="col-lg-6">
-  <div class="card">
+  <div class="col-lg-6">
+    <div class="card">
       <div class="card-body">
 
-  <h1 class="card-title" style="text-align: center;">Compra</h1>
-  <h6 class="card-subtitle"> 
+        <h1 class="card-title" style="text-align: center;">Compra</h1>
+        <hr>
+        <div class="row h-100 justify-content-center align-items-center">
+          
+        
+        <h6 class="card-subtitle col-lg-10">
 
 
 
 
-    <!-- Default form register -->
-    <form class="text-center p-2">
+          <!-- Default form register -->
+          <form class="text-center p-2">
 
-      <!-- E-mail -->
-      <input type="text" class="form-control mb-4" placeholder=" Buscar por # Cedula / RUC">
-
-      <!-- Password -->
-      <input type="text" class="form-control mb-4" placeholder="Nombre" aria-describedby="defaultRegisterFormPasswordHelpBlock" disabled>
-
-      <div class="form-row mb-4">
-        <div class="col">
-          <!-- First name -->
-          <input type="text" class="form-control" placeholder="Producto">
-        </div>
-        <div class="col">
-          <!-- Last name -->
-          <input type="text" class="form-control" placeholder="Referencia">
-        </div>
-      </div>
-
-      <div>
-      <!-- Phone number -->
-      <input type="number"  class="form-control col-lg-4" placeholder="Valor total $" aria-describedby="defaultRegisterFormPhoneHelpBlock">
-      </div>      
-      
-      <!-- Sign up button -->
-      <button mdbBtn color="info" block="true" class="mt-4 btn btn-info btn-md" type="submit" style="color: white">Aceptar</button>
+            <!-- E-mail -->
+            <!-- <div class="form-row mb-4">
+              <div class="col">
+                <input type="text" class="form-control mb-4" placeholder=" Buscar por # Cedula / RUC">
+              </div>
+              <div class="col">
+                <button mdbBtn color="info" block="true" class="mt-4 btn btn-info" type="submit" style="color: white">Aceptar</button>
+              </div>
+            </div> -->
 
 
-    </form>
-    <!-- Default form register -->
+            <div class="input-group mb-4">
+              <input class="form-control" type="search" id="example-search-input" placeholder=" Buscar por # Cedula / RUC" name="billeteraParaEnviar" [(ngModel)]="billeteraParaEnviar">
+              <span class="input-group-append">
+                <button (click)="cargarBilleteraDestino();" class="btn btn-outline-secondary" type="button">
+                  <i class="fa fa-search"></i>
+                </button>
+              </span>
+            </div>
+
+
+            <!-- Password -->
+            <input  type="text" class="form-control mb-4" placeholder="Nombre" aria-describedby="defaultRegisterFormPasswordHelpBlock" disabled value="{{billeteraCliente?.nombre}}">
+
+            <div class="form-row mb-4">
+              <div class="col">
+                <!-- First name -->
+                <input  type="text" class="form-control" placeholder="Producto" name="compra.producto" [(ngModel)]="compra.producto">
+              </div>
+              <div class="col">
+                <!-- Last name -->
+                <input  type="text" class="form-control" placeholder="Referencia" name="compra.referencia" [(ngModel)]="compra.referencia">
+              </div>
+            </div>
+
+            <div>
+              <!-- Phone number -->
+              <input type="number" class="form-control col-lg-4" placeholder="Valor total $" name="compra.valorTotal" [(ngModel)]="compra.valorTotal" aria-describedby="defaultRegisterFormPhoneHelpBlock" >
+            </div>
+
+            <!-- Sign up button -->
+            <button mdbBtn color="info" block="true" (click)="addTransaction(myForm);" class="mt-4 btn btn-info btn-md" type="submit" style="color: white">Aceptar</button>
+
+
+          </form>
+          <!-- Default form register -->
 
 
 
 
-    <!-- Modal Cambiar Inicio -->
+          <!-- Modal Cambiar Inicio -->
 
-     <ng-template #content let-c="close" let-d="dismiss">
-      <div class="modal-header" style="text-align: center; display: block;">
-          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title">Compra</h4>
-      </div>
+          <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header" style="text-align: center; display: block;">
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">Compra</h4>
+            </div>
 
-      <div class="modal-body">
-  
-        <form [formGroup]="myForm">
-          <div class="modal-body">
-   
-                <div class="form-group text-left">
-                  <label for="billeteraOrigen">Billetera origen</label>
-                  
-                      <textarea formControlName="billeteraOrigen" class="form-control" rows="1"></textarea>
-                  
-                </div>
-                <div class="form-group text-left">
-                  <label for="billeteraDestino">Billetera destino</label>
-                  
-                      <textarea formControlName="billeteraDestino" class="form-control" rows="1"></textarea>
-                  
-                </div>
-                  
-                <div class="form-group text-left">
-                  <label for="valorTransaccion">Valor transaccion</label>
-                  
+            <div class="modal-body">
+
+              <form [formGroup]="myForm">
+                <div class="modal-body">
+
+                  <div class="form-group text-left">
+                    <label for="billeteraOrigen">Billetera origen</label>
+
+                    <textarea formControlName="billeteraOrigen" class="form-control" rows="1"></textarea>
+
+                  </div>
+                  <div class="form-group text-left">
+                    <label for="billeteraDestino">Billetera destino</label>
+
+                    <textarea formControlName="billeteraDestino" class="form-control" rows="1"></textarea>
+
+                  </div>
+
+                  <div class="form-group text-left">
+                    <label for="valorTransaccion">Valor transaccion</label>
+
                     <input formControlName="valorTransaccion" type="number" class="form-control">
-                  
-                </div>
-  
-                <div class="form-group text-left">
-                  <label for="objetoCambio">Objeto cambio</label>
-                  
+
+                  </div>
+
+                  <div class="form-group text-left">
+                    <label for="objetoCambio">Objeto cambio</label>
+
                     <input formControlName="objetoCambio" type="text" class="form-control">
-                  
-                </div>
-  
-                <div class="form-group text-left">
-                  <label for="referenciaCambio">Referencia cambio</label>
-                  
+
+                  </div>
+
+                  <div class="form-group text-left">
+                    <label for="referenciaCambio">Referencia cambio</label>
+
                     <input formControlName="referenciaCambio" type="text" class="form-control">
-                  
+
+                  </div>
+
                 </div>
-  
-          </div>
-          <div class="modal-footer" style="text-align: center; display: block;">
-              <button type="button" class="btn btn-default" data-dismiss="modal" (click)="d('Cross click')">Cancelar</button>
-            <button style="color:white;" (click)="addTransaction(myForm);d('Cross click');" type="submit" class="btn btn-success" data-dismiss="modal">Confirmar</button>
-  
-          </div>
-        </form>
-  
-      </div>
-    </ng-template>
-  
-    <!-- <div class="row">
+                <div class="modal-footer" style="text-align: center; display: block;">
+                  <button type="button" class="btn btn-default" data-dismiss="modal" (click)="d('Cross click')">Cancelar</button>
+                  <button style="color:white;" (click)="addTransaction(myForm);d('Cross click');" type="submit" class="btn btn-success"
+                    data-dismiss="modal">Confirmar</button>
+
+                </div>
+              </form>
+
+            </div>
+          </ng-template>
+
+          <!-- <div class="row">
       <div class="col-md-6 pull-left">
         <button class="btn btn-success waves-effect waves-light" style="color:#fff;" (click)="open2(content)">
         <span class="btn-label" >
@@ -133,12 +156,12 @@
       </div>
     </div> -->
 
-      <!-- Modal Cambiar Fin -->
-    
-    <code></code></h6>
+          <!-- Modal Cambiar Fin -->
+        </h6>
+      </div>
 
 
-      <!-- <div class="table table-responsive smart-table">
+        <!-- <div class="table table-responsive smart-table">
         <table class="table">
           <thead>
             <tr> 
@@ -181,9 +204,9 @@
           </tbody>
         </table>
       </div> -->
-      
 
+
+      </div>
     </div>
   </div>
-</div>  
 </div>
