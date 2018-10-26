@@ -1,48 +1,49 @@
 <style>
-    ::placeholder {
+  ::placeholder {
         color: rgb(161, 161, 161);
         opacity: 1; /* Firefox */
     }
 </style>
 
 <div class="container">
-        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-            <strong>Error:</strong> {{errorMessage}}
-        </div>
-        </div>
-      
-    <div class=" row h-100 justify-content-center align-items-center ">
-    <div class="col-lg-5">
-      <div class="card">
-          <div class="card-body">
-    
-      <h1 class="card-title" style="text-align: center;">Cobrar</h1>
-      <h6 class="card-subtitle"> 
-    
-    
-    
-    
-        <!-- Default form register -->
-        <form class="text-center p-2">
-            
-          
-          <div>
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    <strong>Error:</strong> {{errorMessage}}
+  </div>
+</div>
+
+<div class=" row h-100 justify-content-center align-items-center ">
+  <div class="col-lg-5">
+    <div class="card">
+      <div class="card-body">
+
+        <h1 class="card-title" style="text-align: center;">Cobrar</h1>
+        <hr>
+        <h6 class="card-subtitle align-items-center">
+
+
+
+          <!-- Default form register -->
+          <form [formGroup]="myForm" class="text-center p-2">
+
+
             <div>
-              <small class="form-text text-muted mb-1">
-                      Balance:
-              </small>
-                <h1 class="mb-4">350</h1>
-            </div>
-                <!-- Phone number -->
-                <input type="number"  class="form-control col-lg-6 mb-4" placeholder="Monto a cobrar" aria-describedby="defaultRegisterFormPhoneHelpBlock">
+              <div>
+                <small class="form-text text-muted mb-4" style="font-size: 20px;">
+                  Balance:
+                </small>
+                <h1 class="mb-4" style="font-size: 80px;">{{oneWallet?.valorActual}}</h1>
+              </div>
+              <!-- Phone number -->
+              <input formControlName="valorCobro" type="number" class="form-control col-lg-6 mt-1 mb-4" placeholder="Monto a cobrar"
+                aria-describedby="defaultRegisterFormPhoneHelpBlock">
             </div>
 
             <div>
-                <!-- Last name -->
-                <input type="text" class="form-control col-lg-6" placeholder="Referencia">
+              <!-- Last name -->
+              <input formControlName="referencia" type="text" class="form-control col-lg-6" placeholder="Referencia">
             </div>
 
-<!--             <div class="form-group">
+            <!--             <div class="form-group">
                 <div class="col-sm-3 control-label">
                     <label>Surname:</label>
                 </div>
@@ -53,76 +54,78 @@
             </div> -->
 
             <!-- Sign up button -->
-            <button mdbBtn color="info" block="true" class="mt-4 btn btn-info btn-md" type="submit" style="color: white">Aceptar</button>
-        
-    
-        </form>
-        <!-- Default form register -->
-    
-    
-    
-    
-        <!-- Modal Cambiar Inicio -->
-    
-         <ng-template #content let-c="close" let-d="dismiss">
-          <div class="modal-header" style="text-align: center; display: block;">
+            <button mdbBtn (click)="addTransaction(myForm);" color="info" block="true" class="mt-4 btn btn-info btn-md"
+              type="submit" style="color: white">Aceptar</button>
+
+
+          </form>
+          <!-- Default form register -->
+
+
+
+
+          <!-- Modal Cambiar Inicio -->
+
+          <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header" style="text-align: center; display: block;">
               <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
                 <span aria-hidden="true">&times;</span>
               </button>
               <h4 class="modal-title">Compra</h4>
-          </div>
-    
-          <div class="modal-body">
-      
-            <form [formGroup]="myForm">
-              <div class="modal-body">
-       
-                    <div class="form-group text-left">
-                      <label for="billeteraOrigen">Billetera origen</label>
-                      
-                          <textarea formControlName="billeteraOrigen" class="form-control" rows="1"></textarea>
-                      
-                    </div>
-                    <div class="form-group text-left">
-                      <label for="billeteraDestino">Billetera destino</label>
-                      
-                          <textarea formControlName="billeteraDestino" class="form-control" rows="1"></textarea>
-                      
-                    </div>
-                      
-                    <div class="form-group text-left">
-                      <label for="valorTransaccion">Valor transaccion</label>
-                      
-                        <input formControlName="valorTransaccion" type="number" class="form-control">
-                      
-                    </div>
-      
-                    <div class="form-group text-left">
-                      <label for="objetoCambio">Objeto cambio</label>
-                      
-                        <input formControlName="objetoCambio" type="text" class="form-control">
-                      
-                    </div>
-      
-                    <div class="form-group text-left">
-                      <label for="referenciaCambio">Referencia cambio</label>
-                      
-                        <input formControlName="referenciaCambio" type="text" class="form-control">
-                      
-                    </div>
-      
-              </div>
-              <div class="modal-footer" style="text-align: center; display: block;">
+            </div>
+
+            <div class="modal-body">
+
+              <form [formGroup]="myForm">
+                <div class="modal-body">
+
+                  <div class="form-group text-left">
+                    <label for="billeteraOrigen">Billetera origen</label>
+
+                    <textarea formControlName="billeteraOrigen" class="form-control" rows="1"></textarea>
+
+                  </div>
+                  <div class="form-group text-left">
+                    <label for="billeteraDestino">Billetera destino</label>
+
+                    <textarea formControlName="billeteraDestino" class="form-control" rows="1"></textarea>
+
+                  </div>
+
+                  <div class="form-group text-left">
+                    <label for="valorTransaccion">Valor transaccion</label>
+
+                    <input formControlName="valorTransaccion" type="number" class="form-control">
+
+                  </div>
+
+                  <div class="form-group text-left">
+                    <label for="objetoCambio">Objeto cambio</label>
+
+                    <input formControlName="objetoCambio" type="text" class="form-control">
+
+                  </div>
+
+                  <div class="form-group text-left">
+                    <label for="referenciaCambio">Referencia cambio</label>
+
+                    <input formControlName="referenciaCambio" type="text" class="form-control">
+
+                  </div>
+
+                </div>
+                <div class="modal-footer" style="text-align: center; display: block;">
                   <button type="button" class="btn btn-default" data-dismiss="modal" (click)="d('Cross click')">Cancelar</button>
-                <button style="color:white;" (click)="addTransaction(myForm);d('Cross click');" type="submit" class="btn btn-success" data-dismiss="modal">Confirmar</button>
-      
-              </div>
-            </form>
-      
-          </div>
-        </ng-template>
-      
-        <!-- <div class="row">
+                  <button style="color:white;" (click)="addTransaction(myForm);d('Cross click');" type="submit" class="btn btn-success"
+                    data-dismiss="modal">Confirmar</button>
+
+                </div>
+              </form>
+
+            </div>
+          </ng-template>
+
+          <!-- <div class="row">
           <div class="col-md-6 pull-left">
             <button class="btn btn-success waves-effect waves-light" style="color:#fff;" (click)="open2(content)">
             <span class="btn-label" >
@@ -137,13 +140,14 @@
             </form> 
           </div>
         </div> -->
-    
+
           <!-- Modal Cambiar Fin -->
-        
-        <code></code></h6>
-    
-    
-          <!-- <div class="table table-responsive smart-table">
+
+          <code></code>
+        </h6>
+
+
+        <!-- <div class="table table-responsive smart-table">
             <table class="table">
               <thead>
                 <tr> 
@@ -186,9 +190,9 @@
               </tbody>
             </table>
           </div> -->
-          
-    
-        </div>
+
+
       </div>
-    </div>  
     </div>
+  </div>
+</div>
