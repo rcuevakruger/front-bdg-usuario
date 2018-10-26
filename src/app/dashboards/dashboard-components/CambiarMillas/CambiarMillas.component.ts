@@ -18,6 +18,7 @@ import { CambiarMillasService } from './CambiarMillas.service';
 import 'rxjs/add/operator/toPromise';
 import { ViewEncapsulation } from '@angular/core';
 import {NgbModal, ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class CambiarMillasComponent implements OnInit {
   private Transaction;
   private currentId;
   private errorMessage;
+  private oneWallet;
 
   billeteraOrigen = new FormControl('', Validators.required);
   billeteraDestino = new FormControl('', Validators.required);
@@ -54,8 +56,12 @@ export class CambiarMillasComponent implements OnInit {
   transactionId = new FormControl('', Validators.required);
   timestamp = new FormControl('', Validators.required);
 
+  usuario
 
-  constructor(private serviceCambiarMillas: CambiarMillasService, fb: FormBuilder,private modalService: NgbModal, private modalService2: NgbModal) {
+
+  constructor(private serviceCambiarMillas: CambiarMillasService, fb: FormBuilder,
+    private modalService: NgbModal, private modalService2: NgbModal,
+    private router: Router, private route: ActivatedRoute) {
     this.myForm = fb.group({
       billeteraOrigen: this.billeteraOrigen,
       billeteraDestino: this.billeteraDestino,
@@ -65,6 +71,9 @@ export class CambiarMillasComponent implements OnInit {
       transactionId: this.transactionId,
       // timestamp: this.timestamp
     });
+
+    this.usuario=JSON.parse(localStorage.getItem("usuario"))
+
   };
 
   ngOnInit(): void {
@@ -92,6 +101,35 @@ export class CambiarMillasComponent implements OnInit {
       }
     });
   } */
+
+
+  loadSingle(): Promise<any> {
+    const tempList = [];
+    return this.serviceCambiarMillas.getTransaction(this.usuario.id)
+   
+    .toPromise()
+    .then((result) => {
+      this.errorMessage = null;
+      transaction => {
+        tempList.push(transaction);
+      };
+      // this.oneWallet = tempList;
+      this.oneWallet = result;
+      // console.log(this.oneWallet);
+      console.log(this.oneWallet);
+      
+      
+    })
+    .catch((error) => {
+      if (error === 'Server error') {
+        this.errorMessage = 'Could not connect to REST server. Please check your configuration details';
+      } else if (error === '404 - Not Found') {
+        this.errorMessage = '404 - Could not find API route. Please check your available APIs.';
+      } else {
+        this.errorMessage = error;
+      }
+    });
+  }
 
   loadAll(): Promise<any> {
     const tempList = [];
